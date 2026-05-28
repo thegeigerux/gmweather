@@ -29,6 +29,19 @@ main {
   backdrop-filter: blur(18px);
 }
 
+.tweet-ticker.is-empty {
+  min-height: 4px;
+  margin-bottom: 18px;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.ticker-empty {
+  display: none;
+}
+
 .ticker-label {
   display: inline-flex;
   align-items: center;
@@ -66,7 +79,7 @@ main {
 .ticker-items {
   display: flex;
   width: max-content;
-  animation: ticker-scroll 120s linear infinite;
+  animation: ticker-scroll 140s linear infinite;
 }
 
 .ticker-items:hover {
@@ -83,6 +96,10 @@ main {
   font-size: 0.96rem;
   font-weight: 850;
   white-space: nowrap;
+}
+
+.ticker-spacer {
+  flex: 0 0 min(48vw, 520px);
 }
 
 .ticker-items a::before {
