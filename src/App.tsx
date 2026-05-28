@@ -201,11 +201,11 @@ function App() {
     fetch('/api/latest-tweets')
       .then((response) => response.json())
       .then((tweets: TweetFeed) => {
-        if (isMounted) setTweetFeed(tweets)
+        if (isMounted && !tweets.fallback && tweets.tweets.length) {
+          setTweetFeed(tweets)
+        }
       })
-      .catch(() => {
-        if (isMounted) setTweetFeed(fallbackTweetFeed)
-      })
+      .catch(() => {})
 
     return () => {
       isMounted = false
