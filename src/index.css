@@ -1,0 +1,90 @@
+:root {
+  --bg-navy: #1f3446;
+  --deep-bg: #150f18;
+  --mid-blue: #2f5068;
+  --panel-fill: #415871;
+  --panel-border: #4b5c72;
+  --headline: #fcfffe;
+  --muted-blue: #39566f;
+  --brand-blue: #77a2c8;
+  --brand-pink: #cf8aa8;
+  --button-blue: #83a6cf;
+  --button-pink: #cf8a9d;
+  --youtube-accent: #eb6b5c;
+  --facebook-accent: #498be3;
+  --tiktok-accent: #97d5da;
+  --twitter-accent: #b6babc;
+  --soft-text: color-mix(in srgb, var(--headline), var(--muted-blue) 46%);
+  --font-sans:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+
+  font-family: var(--font-sans);
+  color: var(--soft-text);
+  background: var(--deep-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--deep-bg);
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100svh;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(47, 80, 104, 0.82), transparent 34rem),
+    radial-gradient(circle at 86% 80%, rgba(207, 138, 157, 0.26), transparent 28rem),
+    radial-gradient(circle at 12% 54%, rgba(119, 162, 200, 0.18), transparent 24rem),
+    linear-gradient(180deg, var(--deep-bg) 0%, var(--bg-navy) 14%, var(--mid-blue) 42%, var(--deep-bg) 100%);
+}
+
+body::before,
+body::after {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+}
+
+body::before {
+  background:
+    linear-gradient(rgba(252, 255, 254, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(252, 255, 254, 0.014) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, transparent, black 14%, black 72%, transparent);
+}
+
+body::after {
+  background:
+    radial-gradient(circle at 50% 0%, transparent 0, transparent 24%, rgba(0, 0, 0, 0.28) 62%, rgba(0, 0, 0, 0.7) 100%),
+    linear-gradient(180deg, rgba(21, 15, 24, 0.38), transparent 28%, rgba(21, 15, 24, 0.64));
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+  min-height: 100svh;
+}
