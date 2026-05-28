@@ -29,19 +29,6 @@ main {
   backdrop-filter: blur(18px);
 }
 
-.tweet-ticker.is-empty {
-  min-height: 4px;
-  margin-bottom: 18px;
-  border-color: transparent;
-  background: transparent;
-  box-shadow: none;
-  backdrop-filter: none;
-}
-
-.ticker-empty {
-  display: none;
-}
-
 .ticker-label {
   display: inline-flex;
   align-items: center;

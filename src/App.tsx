@@ -94,6 +94,15 @@ const coverageCards = [
   },
 ]
 
+const loadingTweets: LatestTweet[] = [
+  {
+    id: 'loading',
+    text: 'Loading latest @GMengel posts...',
+    createdAt: '',
+    url: 'https://x.com/GMengel',
+  },
+]
+
 function formatPublishedDate(date: string) {
   if (!date) return ''
 
@@ -202,42 +211,37 @@ function App() {
 
   const video = latestVideo || fallbackVideo
   const publishedDate = formatPublishedDate(video.published)
-  const tickerSource = tweetFeed && !tweetFeed.fallback ? tweetFeed.tweets : []
+  const tickerSource =
+    tweetFeed && !tweetFeed.fallback && tweetFeed.tweets.length
+      ? tweetFeed.tweets
+      : loadingTweets
   const tickerTweets = [...tickerSource, ...tickerSource]
 
   return (
     <main>
       <section
-        className={`tweet-ticker ${tickerTweets.length ? 'is-live' : 'is-empty'}`}
+        className={`tweet-ticker ${tweetFeed && !tweetFeed.fallback ? 'is-live' : 'is-loading'}`}
         aria-label="Latest posts from X"
       >
-        {tickerTweets.length ? (
-          <>
-            <a className="ticker-label" href="https://x.com/GMengel" target="_blank">
-              <span aria-hidden="true">X</span>
-              Latest from @GMengel
-            </a>
-            <div className="ticker-track" aria-live="polite">
-              <div className="ticker-items">
-                <span className="ticker-spacer" aria-hidden="true" />
-                {tickerTweets.map((tweet, index) => (
-                  <a href={tweet.url} key={`${tweet.id}-${index}`} target="_blank">
-                    {tweet.createdAt && (
-                      <time dateTime={tweet.createdAt}>
-                        {formatRelativeTime(tweet.createdAt)}
-                      </time>
-                    )}
-                    {tweet.text}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="ticker-empty" aria-hidden="true">
-            <span />
+        <a className="ticker-label" href="https://x.com/GMengel" target="_blank">
+          <span aria-hidden="true">X</span>
+          Latest from @GMengel
+        </a>
+        <div className="ticker-track" aria-live="polite">
+          <div className="ticker-items">
+            <span className="ticker-spacer" aria-hidden="true" />
+            {tickerTweets.map((tweet, index) => (
+              <a href={tweet.url} key={`${tweet.id}-${index}`} target="_blank">
+                {tweet.createdAt && (
+                  <time dateTime={tweet.createdAt}>
+                    {formatRelativeTime(tweet.createdAt)}
+                  </time>
+                )}
+                {tweet.text}
+              </a>
+            ))}
           </div>
-        )}
+        </div>
       </section>
 
       <section className="hero-section" aria-labelledby="hero-title">
