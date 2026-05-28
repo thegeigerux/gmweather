@@ -45,20 +45,6 @@ const fallbackVideo: LatestVideo = {
   fallback: true,
 }
 
-const fallbackTweetFeed: TweetFeed = {
-  handle: '@GMengel',
-  profileUrl: 'https://x.com/GMengel',
-  tweets: [
-    {
-      id: 'fallback',
-      text: "Open @GMengel on X for Gerald's latest storm notes and field updates.",
-      createdAt: '',
-      url: 'https://x.com/GMengel',
-    },
-  ],
-  fallback: true,
-}
-
 const socialLinks = [
   {
     platform: 'YouTube',
@@ -108,14 +94,39 @@ const coverageCards = [
   },
 ]
 
-const loadingTweets: LatestTweet[] = [
+const lastKnownTweets: LatestTweet[] = [
   {
-    id: 'loading',
-    text: 'Loading latest @GMengel posts...',
-    createdAt: '',
-    url: 'https://x.com/GMengel',
+    id: '2059766977065865675',
+    text: "Flooding rains and potential tropical mischief are in the forecast, and people in the path are tuning into GMWeather for their forecast. Nearly 20k views on yesterday's video. I'm blessed to have you trust me this hurricane season!",
+    createdAt: 'Wed, 27 May 2026 22:41:30 GMT',
+    url: 'https://x.com/GMengel/status/2059766977065865675',
+  },
+  {
+    id: '2059739775951675431',
+    text: 'And no Randy, me discussing it isn’t “hype”',
+    createdAt: 'Wed, 27 May 2026 20:53:25 GMT',
+    url: 'https://x.com/GMengel/status/2059739775951675431',
+  },
+  {
+    id: '2059738356834054182',
+    text: 'People are way too caught up on whatever is in the gulf next week having a name or not. Either way flooding rains are a concern for parts of the Southeast.',
+    createdAt: 'Wed, 27 May 2026 20:47:47 GMT',
+    url: 'https://x.com/GMengel/status/2059738356834054182',
+  },
+  {
+    id: '2059706667910979841',
+    text: 'Trouble is brewing, with flooding rains becoming more likely. The full forecast below.',
+    createdAt: 'Wed, 27 May 2026 18:41:51 GMT',
+    url: 'https://x.com/GMengel/status/2059706667910979841',
   },
 ]
+
+const fallbackTweetFeed: TweetFeed = {
+  handle: '@GMengel',
+  profileUrl: 'https://x.com/GMengel',
+  tweets: lastKnownTweets,
+  fallback: false,
+}
 
 function formatPublishedDate(date: string) {
   if (!date) return ''
@@ -162,7 +173,7 @@ function formatRelativeTime(date: string) {
 function App() {
   const [latestVideo, setLatestVideo] = useState<LatestVideo | null>(null)
   const [isLoadingVideo, setIsLoadingVideo] = useState(true)
-  const [tweetFeed, setTweetFeed] = useState<TweetFeed | null>(null)
+  const [tweetFeed, setTweetFeed] = useState<TweetFeed>(fallbackTweetFeed)
 
   useEffect(() => {
     let isMounted = true
@@ -203,16 +214,13 @@ function App() {
 
   const video = latestVideo || fallbackVideo
   const publishedDate = formatPublishedDate(video.published)
-  const tickerSource =
-    tweetFeed && !tweetFeed.fallback && tweetFeed.tweets.length
-      ? tweetFeed.tweets
-      : loadingTweets
+  const tickerSource = tweetFeed.tweets.length ? tweetFeed.tweets : lastKnownTweets
   const tickerTweets = [...tickerSource, ...tickerSource]
 
   return (
     <main>
       <section
-        className={`tweet-ticker ${tweetFeed && !tweetFeed.fallback ? 'is-live' : 'is-loading'}`}
+        className="tweet-ticker is-live"
         aria-label="Latest posts from X"
       >
         <a className="ticker-label" href="https://x.com/GMengel" target="_blank">
