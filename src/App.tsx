@@ -45,6 +45,20 @@ const fallbackVideo: LatestVideo = {
   fallback: true,
 }
 
+const fallbackTweetFeed: TweetFeed = {
+  handle: '@GMengel',
+  profileUrl: 'https://x.com/GMengel',
+  tweets: [
+    {
+      id: 'fallback',
+      text: "Open @GMengel on X for Gerald's latest storm notes and field updates.",
+      createdAt: '',
+      url: 'https://x.com/GMengel',
+    },
+  ],
+  fallback: true,
+}
+
 const socialLinks = [
   {
     platform: 'YouTube',
@@ -153,55 +167,33 @@ function App() {
   useEffect(() => {
     let isMounted = true
 
-    Promise.allSettled([
-      fetch('/api/latest-youtube').then((response) => response.json()),
-      fetch('/api/latest-tweets').then((response) => response.json()),
-    ])
-      .then(([videoResult, tweetResult]) => {
-        if (!isMounted) return
-
-        setLatestVideo(
-          videoResult.status === 'fulfilled'
-            ? (videoResult.value as LatestVideo)
-            : fallbackVideo,
-        )
-        setTweetFeed(
-          tweetResult.status === 'fulfilled'
-            ? (tweetResult.value as TweetFeed)
-            : {
-                handle: '@GMengel',
-                profileUrl: 'https://x.com/GMengel',
-                tweets: [
-                  {
-                    id: 'fallback',
-                    text: "Follow @GMengel on X for Gerald's latest storm notes and field updates.",
-                    createdAt: '',
-                    url: 'https://x.com/GMengel',
-                  },
-                ],
-                fallback: true,
-              },
-        )
+    fetch('/api/latest-youtube')
+      .then((response) => response.json())
+      .then((video: LatestVideo) => {
+        if (isMounted) setLatestVideo(video)
       })
       .catch(() => {
-        if (!isMounted) return
-        setLatestVideo(fallbackVideo)
-        setTweetFeed({
-          handle: '@GMengel',
-          profileUrl: 'https://x.com/GMengel',
-          tweets: [
-            {
-              id: 'fallback',
-              text: "Follow @GMengel on X for Gerald's latest storm notes and field updates.",
-              createdAt: '',
-              url: 'https://x.com/GMengel',
-            },
-          ],
-          fallback: true,
-        })
+        if (isMounted) setLatestVideo(fallbackVideo)
       })
       .finally(() => {
         if (isMounted) setIsLoadingVideo(false)
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  useEffect(() => {
+    let isMounted = true
+
+    fetch('/api/latest-tweets')
+      .then((response) => response.json())
+      .then((tweets: TweetFeed) => {
+        if (isMounted) setTweetFeed(tweets)
+      })
+      .catch(() => {
+        if (isMounted) setTweetFeed(fallbackTweetFeed)
       })
 
     return () => {
